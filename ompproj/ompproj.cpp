@@ -126,8 +126,9 @@ int main(int argc, char* argv[])
 	auto start_time = omp_get_wtime();
 
 #pragma omp parallel for
-	for (int r = 0; r < rows1; r++) {
-		for (int c = 0; c < cols2; c++) {
+	for (int c = 0; c < cols2; c++) {
+		for (int r = 0; r < rows1; r++) {
+	//	for (int c = 0; c < cols2; c++) {
 			for (int i = 0; i < cols1; i++) {
 				matrix3[r][c] = matrix3[r][c] + matrix1[r][i] * matrix2[i][c];
 			}
