@@ -123,20 +123,65 @@ int main(int argc, char* argv[])
 	}
 	}
 
-	auto start_time = omp_get_wtime();
+/*
+RCI
+*/
+//#pragma omp parallel for
+//	for (int r = 0; r < rows1; r++) {
+//		for (int c = 0; c < cols2; c++) {
+//			for (int i = 0; i < cols1; i++) {
+//				matrix3[r][c] = matrix3[r][c] + matrix1[r][i] * matrix2[i][c];
+//			}
+//		}
+//	}
 
+
+/*
+CRI
+*/
+//#pragma omp parallel for
+//	for (int c = 0; c < cols2; c++) {
+//		for (int r = 0; r < rows1; r++) {
+//		// for (int c = 0; c < cols2; c++) {
+//			for (int i = 0; i < cols1; i++) {
+//				matrix3[r][c] = matrix3[r][c] + matrix1[r][i] * matrix2[i][c];
+//			}
+//		}
+//	}
+//
+//	auto start_time = omp_get_wtime();
+///*
+//CIR
+//*/
+//#pragma omp parallel for
+//	for (int c = 0; c < cols2; c++) {
+//		for (int i = 0; i < cols1; i++) {
+//			for (int r = 0; r < rows1; r++) {
+//				matrix3[r][c] = matrix3[r][c] + matrix1[r][i] * matrix2[i][c];
+//			}
+//		}
+//	}
+//
+//	auto run_time = omp_get_wtime() - start_time;
+//	printf("parallel - cir,%s,%s,%s,%s,%f\n", argv[1], argv[2], argv[3], argv[4], run_time);
+//
+
+/*
+IRC
+*/
+	auto start_time = omp_get_wtime();
 #pragma omp parallel for
-	for (int c = 0; c < cols2; c++) {
+	for (int i = 0; i < cols1; i++) {
 		for (int r = 0; r < rows1; r++) {
-	//	for (int c = 0; c < cols2; c++) {
-			for (int i = 0; i < cols1; i++) {
+			for (int c = 0; c < cols2; c++) {
 				matrix3[r][c] = matrix3[r][c] + matrix1[r][i] * matrix2[i][c];
 			}
 		}
 	}
 
+
 	auto run_time = omp_get_wtime() - start_time;
-	printf("parallel,%s,%s,%s,%s,%f\n", argv[1], argv[2], argv[3], argv[4], run_time);
+	printf("parallel - irc,%s,%s,%s,%s,%f\n", argv[1], argv[2], argv[3], argv[4], run_time);
 
 	//#pragma omp barrier
 #pragma omp parallel
